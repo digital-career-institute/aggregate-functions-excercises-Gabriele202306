@@ -1,0 +1,26 @@
+--1--
+SELECT COUNT(*) AS total_orders FROM orders;
+
+--2--
+SELECT COUNT(*) AS orders_with_ship_region FROM orders WHERE ship_region IS NOT NULL;
+
+--3--
+SELECT product_name, unit_price FROM products ORDER BY unit_price DESC LIMIT 1;
+
+--4--
+SELECT order_id, SUM(unit_price * quantity) AS total_price FROM order_details
+WHERE order_id = 10258 GROUP BY order_id;
+
+--5--
+SELECT product_name, unit_price FROM products WHERE product_id IN ( SELECT product_id
+FROM order_details WHERE order_id = 10263 ORDER BY unit_price LIMIT 1);
+
+--6--
+SELECT product_name, unit_price FROM products WHERE unit_price > (SELECT AVG(unit_price) FROM products);
+
+--7--
+SELECT COUNT(*) AS seafood_products FROM products WHERE category_id = (SELECT category_id FROM categories WHERE category_name = 'Seafood');
+
+--8--
+SELECT SUM(unit_price * quantity) AS total_value FROM order_details
+WHERE order_id IN ( SELECT order_id FROM orders WHERE EXTRACT(YEAR FROM order_date) = 1996);
